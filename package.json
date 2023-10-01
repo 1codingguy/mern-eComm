@@ -14,6 +14,8 @@
   "author": "1codingguy",
   "license": "MIT",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.4",
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
     "mongoose": "^7.5.3"
   },
