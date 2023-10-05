@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
+import { Types, Schema, model, InferSchemaType } from 'mongoose'
 
-const reviewSchema = new mongoose.Schema(
+const reviewSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: 'User',
     },
@@ -25,10 +25,10 @@ const reviewSchema = new mongoose.Schema(
   }
 )
 
-const productSchema = new mongoose.Schema(
+const productSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId, // when create a anything in DB, it has its own _id, which has its own type
+      type: Schema.Types.ObjectId, // when create a anything in DB, it has its own _id, which has its own type
       required: true,
       ref: 'User', // reference the "User" collection
     },
@@ -79,6 +79,12 @@ const productSchema = new mongoose.Schema(
   }
 )
 
-const Product = mongoose.model('Product', productSchema)
+const Product = model('Product', productSchema)
+
+type InferredType = InferSchemaType<typeof productSchema>
+
+export type ProductType = InferredType & {
+  _id: Types.ObjectId
+}
 
 export default Product

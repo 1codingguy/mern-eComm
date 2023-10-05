@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
+import { Types, Schema, model, InferSchemaType } from 'mongoose'
 
-const orderSchema = new mongoose.Schema(
+const orderSchema = new Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       required: true,
       ref: 'User',
     },
@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema(
         image: { type: String, required: true },
         price: { type: Number, required: true },
         product: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           required: true,
           ref: 'Product',
         },
@@ -78,6 +78,12 @@ const orderSchema = new mongoose.Schema(
   }
 )
 
-const Order = mongoose.model('Order', orderSchema)
+const Order = model('Order', orderSchema)
+
+type InferredType = InferSchemaType<typeof orderSchema>
+
+export type OrderType = InferredType & {
+  _id: Types.ObjectId
+}
 
 export default Order

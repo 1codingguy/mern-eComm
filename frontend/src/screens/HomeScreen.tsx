@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
-import { ProductType } from '../../../backend/data/products'
 import axios from 'axios'
+import { ProductType } from '../../../backend/models/productModel'
 
 const HomeScreen = () => {
   const [products, setProducts] = useState<ProductType[] | []>([])
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get('api/products')
+      const { data } = await axios.get<ProductType[]>('/api/products')
       setProducts(data)
     }
     fetchProducts()
@@ -21,7 +21,7 @@ const HomeScreen = () => {
       <Row>
         {products.map(product => {
           return (
-            <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
+            <Col sm={12} md={6} lg={4} xl={3} key={String(product._id)}>
               <Product product={product} />
             </Col>
           )

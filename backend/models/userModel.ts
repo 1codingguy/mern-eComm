@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+import { Types, Schema, InferSchemaType, model } from 'mongoose'
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     name: {
       type: String,
@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-const User = mongoose.model("User", userSchema)
+const User = model("User", userSchema)
 
+type InferredType = InferSchemaType<typeof userSchema>
+
+export type UserType = InferredType & {
+  _id: Types.ObjectId
+}
 export default User

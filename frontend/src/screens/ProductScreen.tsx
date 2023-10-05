@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import axios from 'axios'
-import { ProductType } from '../../../backend/data/products'
+import { ProductType } from '../../../backend/models/productModel'
 
 const ProductScreen = () => {
   const { id: productId } = useParams()

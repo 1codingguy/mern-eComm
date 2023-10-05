@@ -74,5 +74,3 @@ const products = [
 ]
 
 export default products
-
-export type ProductType = (typeof products)[number]
