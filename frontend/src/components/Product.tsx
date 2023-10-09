@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap'
-import { ProductType } from '../products'
+import { ProductType } from '../../../backend/models/productModel'
 import { Link } from 'react-router-dom'
 import Rating from './Rating'
 
