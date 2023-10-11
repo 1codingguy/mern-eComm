@@ -1,4 +1,3 @@
-// turn into Typescript and do the type gymnastic later
 import { createSlice } from '@reduxjs/toolkit'
 
 const localData = localStorage.getItem('cart')
