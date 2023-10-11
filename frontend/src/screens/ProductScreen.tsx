@@ -30,7 +30,8 @@ const ProductScreen = () => {
   } = useGetProductDetailsQuery(productId ?? '')
 
   const addToCartHandler = () => {
-    dispatch(addToCart({ ...product }))
+    // qty is added but it's not part of ProductType
+    dispatch(addToCart({ ...product, qty }))
     navigate('/cart')
   }
 
