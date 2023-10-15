@@ -4,9 +4,13 @@ import { updateCart } from '../utils/cartUtils'
 
 const localData = localStorage.getItem('cart')
 
+  interface CartItemsType extends ProductType {
+    qty: number
+  }
+
 // cartItems should be OrderType.orderItems instead because there is `qty` property, confirm and correct later
 export interface CartState {
-  cartItems: ProductType[] | []
+  cartItems: CartItemsType[] | []
   itemsPrice: string
   shippingPrice: string
   taxPrice: string
