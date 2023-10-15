@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { ProductType } from '../../../backend/models/productModel'
+import { updateCart } from '../utils/cartUtils'
 
 const localData = localStorage.getItem('cart')
 
 // cartItems should be OrderType.orderItems instead because there is `qty` property, confirm and correct later
-interface CartState {
+export interface CartState {
   cartItems: ProductType[] | []
   itemsPrice: string
   shippingPrice: string
@@ -15,7 +16,6 @@ interface CartState {
 const initialState: CartState =
   localData !== null ? JSON.parse(localData) : { cartItems: [] }
 
-const addDecimals = (num: number) => (Math.round(num * 100) / 100).toFixed(2)
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -38,28 +38,7 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, item]
       }
 
-      // calculate items price
-      state.itemsPrice = addDecimals(
-        state.cartItems.reduce(
-          (acc: number, item) => acc + item.price * item.qty,
-          0
-        )
-      )
-
-      // calculate shipping price ($10 shipping, free if order over $100)
-      state.shippingPrice = addDecimals(Number(state.itemsPrice) > 100 ? 0 : 10)
-
-      // calculate tax price (15%)
-      state.taxPrice = addDecimals(0.15 * Number(state.itemsPrice))
-
-      // calculate total price
-      state.totalPrice = (
-        Number(state.itemsPrice) +
-        Number(state.shippingPrice) +
-        Number(state.taxPrice)
-      ).toFixed(2)
-
-      localStorage.setItem('cart', JSON.stringify(state))
+      return updateCart(state)
     },
   },
 })
