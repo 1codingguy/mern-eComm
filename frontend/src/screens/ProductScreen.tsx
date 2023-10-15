@@ -99,7 +99,7 @@ const ProductScreen = () => {
                           value={qty}
                           onChange={event => setQty(Number(event.target.value))}
                         >
-                          {[...Array(10).keys()].map(num => (
+                          {[...Array(product.countInStock).keys()].map(num => (
                             <option key={num + 1} value={num + 1}>
                               {num + 1}
                             </option>

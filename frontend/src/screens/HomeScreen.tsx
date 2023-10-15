@@ -5,8 +5,7 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 
 const HomeScreen = () => {
-  // TODO: deal with products type later
-  const { data: products, isLoading, error } = useGetProductsQuery(null)
+  const { data: products, isLoading, error } = useGetProductsQuery()
   return (
     <>
       {isLoading ? (
@@ -19,13 +18,14 @@ const HomeScreen = () => {
         <>
           <h1>Latest Products</h1>
           <Row>
-            {products.map(product => {
-              return (
-                <Col sm={12} md={6} lg={4} xl={3} key={String(product._id)}>
-                  <Product product={product} />
-                </Col>
-              )
-            })}
+            {products &&
+              products.map(product => {
+                return (
+                  <Col sm={12} md={6} lg={4} xl={3} key={String(product._id)}>
+                    <Product product={product} />
+                  </Col>
+                )
+              })}
           </Row>
         </>
       )}

@@ -13,12 +13,14 @@ import './assets/styles/bootstrap.custom.css'
 import './assets/styles/index.css'
 import HomeScreen from './screens/HomeScreen.tsx'
 import ProductScreen from './screens/ProductScreen.tsx'
+import CartScreen from './screens/CartScreen.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route path='/' element={<HomeScreen />} index={true} />
       <Route path='/product/:id' element={<ProductScreen />} />
+      <Route path='/cart' element={<CartScreen />} />
     </Route>
   )
 )

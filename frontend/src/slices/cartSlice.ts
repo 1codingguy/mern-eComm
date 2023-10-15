@@ -4,9 +4,9 @@ import { updateCart } from '../utils/cartUtils'
 
 const localData = localStorage.getItem('cart')
 
-  interface CartItemsType extends ProductType {
-    qty: number
-  }
+export interface CartItemsType extends ProductType {
+  qty: number
+}
 
 // cartItems should be OrderType.orderItems instead because there is `qty` property, confirm and correct later
 export interface CartState {
@@ -19,7 +19,6 @@ export interface CartState {
 
 const initialState: CartState =
   localData !== null ? JSON.parse(localData) : { cartItems: [] }
-
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -44,9 +43,14 @@ const cartSlice = createSlice({
 
       return updateCart(state)
     },
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter(cartItem => cartItem._id !== action.payload.id)
+
+      return updateCart(state)
+    }
   },
 })
 
-export const { addToCart } = cartSlice.actions
+export const { addToCart, removeFromCart } = cartSlice.actions
 
 export default cartSlice.reducer
