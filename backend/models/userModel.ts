@@ -1,4 +1,13 @@
-import { Types, Schema, InferSchemaType, model } from 'mongoose'
+import { Types, Schema, InferSchemaType, model, Document } from 'mongoose'
+import bcrypt from 'bcryptjs'
+
+interface IUser extends Document {
+  name: string
+  email: string
+  password: string
+  isAdmin: boolean
+  matchPassword: (enteredPassword: string) => Promise<boolean>
+}
 
 const userSchema = new Schema(
   {
@@ -26,7 +35,11 @@ const userSchema = new Schema(
   }
 )
 
-const User = model("User", userSchema)
+userSchema.methods.matchPassword = async function (enteredPassword: string) {
+  return await bcrypt.compare(enteredPassword, this.password)
+}
+
+const User = model<IUser>('User', userSchema)
 
 type InferredType = InferSchemaType<typeof userSchema>
 

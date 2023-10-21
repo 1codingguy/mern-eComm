@@ -7,7 +7,22 @@ import User from '../models/userModel.js'
 // @access  Public
 
 export const authUser = asyncHandler(async (req, res) => {
-  res.send('authUser')
+  const { email, password } = req.body
+
+  const user = await User.findOne({ email })
+  const isPasswordMatch = user && (await user.matchPassword(password))
+
+  if (isPasswordMatch) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    })
+  } else {
+    res.status(401)
+    throw new Error('Invalid email or password')
+  }
 })
 
 // @desc    Register user
@@ -25,7 +40,6 @@ export const registerUser = asyncHandler(async (req, res) => {
 export const logoutUser = asyncHandler(async (req, res) => {
   res.send('logoutUser')
 })
-
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
@@ -59,7 +73,6 @@ export const deleteUser = asyncHandler(async (req, res) => {
   res.send('deleteUser')
 })
 
-
 // @desc    Get user by ID
 // @route   GET /api/users/:id
 // @access  Private/Admin
@@ -74,8 +87,7 @@ export const getUserById = asyncHandler(async (req, res) => {
 
 export const updateUser = asyncHandler(async (req, res) => {
   res.send('updateUser')
-}) 
-
+})
 
 export default {
   authUser,
