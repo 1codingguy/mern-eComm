@@ -1,6 +1,7 @@
 import express from 'express'
 import asyncHandler from '../middleware/asyncHandler.js'
 import User from '../models/userModel.js'
+import jwt from 'jsonwebtoken'
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -13,6 +14,21 @@ export const authUser = asyncHandler(async (req, res) => {
   const isPasswordMatch = user && (await user.matchPassword(password))
 
   if (isPasswordMatch) {
+    const secret = process.env.JWT_SECRET as jwt.Secret
+
+    const token = jwt.sign({ userId: user._id }, secret, {
+      expiresIn: '30d',
+    })
+
+    // Set JWT as HTTP only cookie
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict', // prevent attack
+      maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+    })
+
+
     res.json({
       _id: user._id,
       name: user.name,
