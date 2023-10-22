@@ -1,4 +1,4 @@
-import { Types, Schema, InferSchemaType, model, Document } from 'mongoose'
+import { Types, Schema, model, Document } from 'mongoose'
 import bcrypt from 'bcryptjs'
 
 interface IUser extends Document {
@@ -41,9 +41,7 @@ userSchema.methods.matchPassword = async function (enteredPassword: string) {
 
 const User = model<IUser>('User', userSchema)
 
-type InferredType = InferSchemaType<typeof userSchema>
-
-export type UserType = InferredType & {
+export type UserType = IUser & {
   _id: Types.ObjectId
 }
 export default User
