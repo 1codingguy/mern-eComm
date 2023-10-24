@@ -85,6 +85,7 @@ type InferredType = InferSchemaType<typeof productSchema>
 
 export type ProductType = InferredType & {
   _id: Types.ObjectId
+  qty: number
 }
 
 export default Product
