@@ -4,13 +4,9 @@ import { updateCart } from '../utils/cartUtils'
 
 const localData = localStorage.getItem('cart')
 
-export interface CartItemsType extends ProductType {
-  qty: number
-}
-
 // cartItems should be OrderType.orderItems instead because there is `qty` property, confirm and correct later
 export interface CartState {
-  cartItems: CartItemsType[] | []
+  cartItems: ProductType[] | []
   itemsPrice: string
   shippingPrice: string
   taxPrice: string
@@ -24,10 +20,23 @@ export interface CartState {
   paymentMethod: string
 }
 
+const defaultCart: CartState = {
+  cartItems: [],
+  itemsPrice: '',
+  shippingPrice: '',
+  taxPrice: '',
+  totalPrice: '',
+  shippingAddress: {
+    address: '',
+    city: '',
+    postalCode: '',
+    country: '',
+  },
+  paymentMethod: 'Paypal',
+}
+
 const initialState: CartState =
-  localData !== null
-    ? JSON.parse(localData)
-    : { cartItems: [], shippingAddress: {}, paymentMethod: 'Paypal' }
+  localData !== null ? JSON.parse(localData) : defaultCart
 
 const cartSlice = createSlice({
   name: 'cart',
