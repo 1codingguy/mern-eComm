@@ -62,7 +62,7 @@ const orderSchema = new Schema(
       default: false,
     },
     paidAt: {
-      type: Number,
+      type: Date,
     },
     isDelivered: {
       type: Boolean,

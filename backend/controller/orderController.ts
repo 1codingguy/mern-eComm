@@ -83,7 +83,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
     } = req.body
 
     order.isPaid = true
-    order.paidAt = Date.now()
+    order.paidAt = new Date()
     order.paymentResult = {
       id,
       status,

@@ -1,6 +1,10 @@
 import { useParams, Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
+import {
+  PayPalButtons,
+  SCRIPT_LOADING_STATE,
+  usePayPalScriptReducer,
+} from '@paypal/react-paypal-js'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import {
@@ -28,7 +32,8 @@ const OrderScreen = () => {
     data: paypal,
     isLoading: loadingPaypal,
     error: errorPaypal,
-  } = useGetPaypalClientIdQuery()
+  } = useGetPaypalClientIdQuery({})
+
   const { userInfo } = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
@@ -41,7 +46,10 @@ const OrderScreen = () => {
             currency: 'USD',
           },
         })
-        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' })
+        paypalDispatch({
+          type: 'setLoadingStatus',
+          value: SCRIPT_LOADING_STATE.PENDING,
+        })
       }
       if (order && !order.isPaid) {
         if (!window.paypal) {
@@ -50,6 +58,45 @@ const OrderScreen = () => {
       }
     }
   }, [order, paypal, paypalDispatch, loadingPaypal, errorPaypal])
+
+  const onApprove = (data, action) => {
+    return action.order.capture().then(async function (details) {
+      try {
+        await payOrder({ orderId, details })
+        refetch()
+        toast.success('Payment successful')
+      } catch (error) {
+        toast.error(error?.data?.message || error.message)
+      }
+    })
+  }
+
+  const onApproveTest = async () => {
+    await payOrder({ orderId, details: { payer: {} } })
+    refetch()
+    toast.success('Payment successful')
+  }
+
+  const onError = error => {
+    toast.error(error.message)
+  }
+
+  const createOrder = (data, actions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              // currency_code: 'USD',
+              value: order.totalPrice,
+            },
+          },
+        ],
+      })
+      .then((orderId: string) => {
+        return orderId
+      })
+  }
 
   if (isLoading) {
     return <Loader />
@@ -174,17 +221,32 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice?.toFixed(2)}</Col>
                 </Row>
               </ListGroup.Item>
-              {/* {!order.isPaid && (
+              {!order.isPaid && (
                 <ListGroup.Item>
-                  <Button
-                    type='button'
-                    className='btn btn-block'
-                    onClick={() => refetch()}
-                  >
-                    Refresh Payment Status
-                  </Button>
+                  {loadingPay && <Loader />}
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <>
+                      <div>
+                        <Button
+                          onClick={onApproveTest}
+                          style={{ marginBottom: '10px' }}
+                        >
+                          Test Pay Order
+                        </Button>
+                      </div>
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    </>
+                  )}
                 </ListGroup.Item>
-              )} */}
+              )}
             </ListGroup>
           </Card>
         </Col>
