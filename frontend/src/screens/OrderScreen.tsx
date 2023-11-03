@@ -3,6 +3,7 @@ import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import {
   PayPalButtons,
   SCRIPT_LOADING_STATE,
+  DISPATCH_ACTION,
   usePayPalScriptReducer,
 } from '@paypal/react-paypal-js'
 import Message from '../components/Message'
@@ -27,6 +28,7 @@ const OrderScreen = () => {
   } = useGetOrderDetailsQuery(orderId)
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
+  // paypalDispatch is just a dispatch(), usePayPalScriptReducer has the same API as useReducer()
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
   const {
     data: paypal,
@@ -39,15 +41,17 @@ const OrderScreen = () => {
   useEffect(() => {
     if (!errorPaypal && !loadingPaypal && paypal.clientId) {
       const loadPaypalScript = async () => {
+        // reload the JS SDK script with new params
         paypalDispatch({
-          type: 'resetOptions',
+          type: DISPATCH_ACTION.RESET_OPTIONS,
           value: {
             clientId: paypal.clientId,
             currency: 'USD',
           },
         })
+        // dispatch an action to set the loading state to pending
         paypalDispatch({
-          type: 'setLoadingStatus',
+          type: DISPATCH_ACTION.LOADING_STATUS,
           value: SCRIPT_LOADING_STATE.PENDING,
         })
       }
@@ -60,8 +64,12 @@ const OrderScreen = () => {
   }, [order, paypal, paypalDispatch, loadingPaypal, errorPaypal])
 
   const onApprove = (data, action) => {
+    // Capture the funds from the transaction
+    // It means to charge the payment on Paypal
+    // action.order.capture() returns a promise
     return action.order.capture().then(async function (details) {
       try {
+        // Update our server that the payment has been successful
         await payOrder({ orderId, details })
         refetch()
         toast.success('Payment successful')
@@ -71,11 +79,12 @@ const OrderScreen = () => {
     })
   }
 
-  const onApproveTest = async () => {
-    await payOrder({ orderId, details: { payer: {} } })
-    refetch()
-    toast.success('Payment successful')
-  }
+  // const onApproveTest = async () => {
+  //   // since it's a test and no `details` is returned from paypal, we just pass an object with payer: {}
+  //   await payOrder({ orderId, details: { payer: {} } })
+  //   refetch()
+  //   toast.success('Payment successful')
+  // }
 
   const onError = error => {
     toast.error(error.message)
@@ -228,14 +237,14 @@ const OrderScreen = () => {
                     <Loader />
                   ) : (
                     <>
-                      <div>
+                      {/* <div>
                         <Button
                           onClick={onApproveTest}
                           style={{ marginBottom: '10px' }}
                         >
                           Test Pay Order
                         </Button>
-                      </div>
+                      </div> */}
                       <div>
                         <PayPalButtons
                           createOrder={createOrder}
