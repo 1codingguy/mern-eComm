@@ -12,6 +12,7 @@ import {
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetPaypalClientIdQuery,
+  useDeliverOrderMutation,
 } from '../slices/ordersApiSlice'
 import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
@@ -28,6 +29,10 @@ const OrderScreen = () => {
   } = useGetOrderDetailsQuery(orderId)
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
+
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation()
+
   // paypalDispatch is just a dispatch(), usePayPalScriptReducer has the same API as useReducer()
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer()
   const {
@@ -105,6 +110,16 @@ const OrderScreen = () => {
       .then((orderId: string) => {
         return orderId
       })
+  }
+
+  const deliverOrderHandler = async () => {
+    try {
+      await deliverOrder({ orderId })
+      refetch()
+      toast.success('Order delivered')
+    } catch (error) {
+      toast.error(error?.data?.message || error.message)
+    }
   }
 
   if (isLoading) {
@@ -254,6 +269,19 @@ const OrderScreen = () => {
                       </div>
                     </>
                   )}
+                </ListGroup.Item>
+              )}
+              {loadingDeliver && <Loader />}
+
+              {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
+                <ListGroup.Item>
+                  <Button
+                    type='button'
+                    className='btn btn-block'
+                    onClick={deliverOrderHandler}
+                  >
+                    Mark As Delivered
+                  </Button>
                 </ListGroup.Item>
               )}
             </ListGroup>
