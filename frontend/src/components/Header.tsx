@@ -33,10 +33,10 @@ const Header = () => {
         <Container>
           <Navbar.Brand>
             <LinkContainer to='/'>
-              <>
+              <div>
                 <img src={logo} alt='ProShop-logo' />
                 ProShop
-              </>
+              </div>
             </LinkContainer>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -68,6 +68,19 @@ const Header = () => {
                     <FaUser /> Sign In
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo?.isAdmin && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
