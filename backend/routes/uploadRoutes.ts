@@ -37,8 +37,9 @@ const checkFileType = (
   } else {
     // null is for error
     cb(new Error('Images only!'), false)
+    // app will crash with the following line
     // null is for error
-    cb('Images only!')
+    // cb('Images only!')
   }
 }
 

@@ -41,7 +41,7 @@ app.get('/api/config/paypal', (req, res) =>
 const __dirname = path.resolve() // __dirname is the current directory
 
 // make the uploads folder static
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 app.use(notFound)
 app.use(errorHandler)
