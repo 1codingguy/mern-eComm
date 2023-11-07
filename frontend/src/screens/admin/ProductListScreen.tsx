@@ -3,13 +3,32 @@ import { Button, Table, Row, Col, Tab } from 'react-bootstrap'
 import { FaTimes, FaEdit, FaTrash } from 'react-icons/fa'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
-import { useGetProductsQuery } from '../../slices/productsApiSlice'
+import {
+  useCreateProductMutation,
+  useGetProductsQuery,
+} from '../../slices/productsApiSlice'
+import { toast } from 'react-toastify'
 
 const ProductListScreen = () => {
-  const { data: products, error, isLoading } = useGetProductsQuery()
+  const { data: products, error, isLoading, refetch } = useGetProductsQuery()
+
+  const [createProduct, { isLoading: loadingCreate }] =
+    useCreateProductMutation()
 
   const deleteHandler = (id: string) => {
     console.log('delete', id)
+  }
+
+  const createProductHandler = async () => {
+    if (window.confirm('confirm create new product?')) {
+      try {
+        await createProduct({})
+        refetch()
+        toast.success('create product success')
+      } catch (error) {
+        toast.error(error?.data?.message || error.error)
+      }
+    }
   }
 
   return (
@@ -19,14 +38,13 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className='text-end'>
-          <LinkContainer to='/admin/product/create'>
-            <Button className='btn-sm my-3'>
-              <FaEdit /> Create Product
-            </Button>
-          </LinkContainer>
+          <Button className='btn-sm my-3' onClick={createProductHandler}>
+            <FaEdit /> Create Product
+          </Button>
         </Col>
       </Row>
 
+      {loadingCreate && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -47,30 +65,33 @@ const ProductListScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {products?.map(product => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>$ {product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm mx-2'>
-                        <FaEdit />
-                      </Button>
-                    </LinkContainer>
+              {products?.map(product => {
+                const productId = String(product._id)
+                return (
+                  <tr key={productId}>
+                    <td>{productId}</td>
+                    <td>{product.name}</td>
+                    <td>$ {product.price}</td>
+                    <td>{product.category}</td>
+                    <td>{product.brand}</td>
+                    <td>
+                      <LinkContainer to={`/admin/product/${productId}/edit`}>
+                        <Button variant='light' className='btn-sm mx-2'>
+                          <FaEdit />
+                        </Button>
+                      </LinkContainer>
 
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(product._id)}
-                    >
-                      <FaTrash style={{ color: 'white' }} />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
+                      <Button
+                        variant='danger'
+                        className='btn-sm'
+                        onClick={() => deleteHandler(productId)}
+                      >
+                        <FaTrash style={{ color: 'white' }} />
+                      </Button>
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </Table>
         </>
