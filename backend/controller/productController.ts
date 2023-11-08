@@ -52,9 +52,6 @@ export const updateProduct = asyncHandler(async (req, res) => {
 
   const product = await Product.findById(req.params.id)
 
-  console.log(product)
-  console.log(req.body)
-
   if (product) {
     product.name = name
     product.price = Number(price)
