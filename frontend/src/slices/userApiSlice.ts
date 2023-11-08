@@ -1,5 +1,6 @@
 import { USERS_URL } from '../constants'
 import { apiSlice } from './apiSlice'
+import { UserType } from '../../../backend/models/userModel'
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -30,6 +31,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    getUsers: builder.query<UserType[], null>({
+      query: () => ({
+        url: USERS_URL,
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ['Users'],
+    }),
   }),
 })
 
@@ -38,4 +46,5 @@ export const {
   useLogoutMutation,
   useRegisterMutation,
   useProfileMutation,
+  useGetUsersQuery,
 } = usersApiSlice

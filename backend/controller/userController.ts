@@ -127,7 +127,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 
 export const getUsers = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('-password')
+  const user = await User.find({})
 
   if (user) {
     res.status(200).json(user)
