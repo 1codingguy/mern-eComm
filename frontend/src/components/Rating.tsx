@@ -2,7 +2,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
 
 type Rating = {
   value: number
-  text: string
+  text?: string
 }
 
 const Rating = ({ value, text }: Rating) => {
