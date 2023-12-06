@@ -9,9 +9,17 @@ import {
   useGetProductsQuery,
 } from '../../slices/productsApiSlice'
 import { toast } from 'react-toastify'
+import { useParams } from 'react-router-dom'
+import Paginate from '../../components/Paginate'
 
 const ProductListScreen = () => {
-  const { data: products, error, isLoading, refetch } = useGetProductsQuery()
+  const { pageNumber } = useParams<{ pageNumber: string }>()
+
+  const { data, error, isLoading, refetch } = useGetProductsQuery(
+    pageNumber ? { pageNumber } : { pageNumber: '1' }
+  )
+
+  const { products = [], pages = 0, page = 0 } = data || {}
 
   const [createProduct, { isLoading: loadingCreate }] =
     useCreateProductMutation()
@@ -107,6 +115,7 @@ const ProductListScreen = () => {
               })}
             </tbody>
           </Table>
+          <Paginate pages={pages} page={page} isAdmin={true} />
         </>
       )}
     </>
