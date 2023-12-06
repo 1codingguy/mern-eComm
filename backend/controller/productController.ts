@@ -6,8 +6,15 @@ import Product from '../models/productModel.js'
 // @access  Public
 
 export const getProducts = asyncHandler(async (req, res) => {
+  const pageSize = 2
+  const page = Number(req.query.pageNumber)
+  const count = await Product.countDocuments()
+
   const products = await Product.find({})
-  res.json(products)
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+
+  res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @desc    Fetch a product with ID
@@ -89,14 +96,13 @@ export const deleteProduct = asyncHandler(async (req, res) => {
 // @access  Private
 
 export const createProductReview = asyncHandler(async (req, res) => {
-
   const { rating, comment } = req.body
 
   const product = await Product.findById(req.params.id)
 
   if (product) {
     const alreadyReviewed = product.reviews.find(
-      (r) => r?.user?.toString() === req?.user?._id?.toString()
+      r => r?.user?.toString() === req?.user?._id?.toString()
     )
 
     if (alreadyReviewed) {
@@ -122,7 +128,6 @@ export const createProductReview = asyncHandler(async (req, res) => {
     await product.save()
 
     res.status(201).json({ message: 'Review added' })
-
   } else {
     res.status(404)
     throw new Error('Product not found')
