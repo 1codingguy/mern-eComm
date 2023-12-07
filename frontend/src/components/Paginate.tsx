@@ -5,10 +5,15 @@ interface PaginateProps {
   pages: number
   page: number
   isAdmin?: boolean
-  // keyword?: string
+  keyword?: string
 }
 
-const Paginate = ({ pages, page, isAdmin = false }: PaginateProps) => {
+const Paginate = ({
+  pages,
+  page,
+  isAdmin = false,
+  keyword = '',
+}: PaginateProps) => {
   if (pages > 1) {
     return (
       <Pagination>
@@ -17,7 +22,9 @@ const Paginate = ({ pages, page, isAdmin = false }: PaginateProps) => {
             key={zeroBasedPageNumber + 1}
             to={
               !isAdmin
-                ? `/page/${zeroBasedPageNumber + 1}`
+                ? keyword
+                  ? `/search/${keyword}/page/${zeroBasedPageNumber + 1}`
+                  : `/page/${zeroBasedPageNumber + 1}`
                 : `/admin/productlist/${zeroBasedPageNumber + 1}`
             }
           >
