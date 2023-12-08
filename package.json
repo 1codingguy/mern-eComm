@@ -11,7 +11,8 @@
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently 'npm run server' 'npm run client' ",
     "data:import": "tsc && node dist/seeder.js",
-    "data:destroy": "tsc && node dist/seeder.js -d"
+    "data:destroy": "tsc && node dist/seeder.js -d",
+    "production-build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "1codingguy",
   "license": "MIT",

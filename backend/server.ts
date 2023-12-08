@@ -23,10 +23,6 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-  res.send('API is running')
-})
-
 //
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
@@ -42,6 +38,21 @@ const __dirname = path.resolve() // __dirname is the current directory
 
 // make the uploads folder static
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+if (process.env.NODE_ENV === 'production') {
+  // make the frontend build folder static
+  app.use(express.static(path.join(__dirname, '/frontend/dist')))
+
+  // any route that is not the api routes, will point to the index.html file in the frontend build folder
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
+  )
+} else {
+  // if not in production mode, show the readme file
+  app.get('/', (req, res) => {
+    res.send('API is running...')
+  })
+}
 
 app.use(notFound)
 app.use(errorHandler)
