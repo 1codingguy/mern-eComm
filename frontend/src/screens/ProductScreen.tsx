@@ -22,6 +22,7 @@ import { useState } from 'react'
 import { addToCart } from '../slices/cartSlice.js'
 import { toast } from 'react-toastify'
 import { RootState } from '../store.js'
+import Meta from '../components/Meta.js'
 
 const ProductScreen = () => {
   const { id: productId } = useParams()
@@ -80,6 +81,7 @@ const ProductScreen = () => {
         </Message>
       ) : (
         <>
+          <Meta title={product?.name} />
           <Row>
             <Col md={5}>
               <Image src={product?.image} alt={product?.name} fluid />
