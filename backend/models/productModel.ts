@@ -28,7 +28,7 @@ const reviewSchema = new Schema(
 const productSchema = new Schema(
   {
     user: {
-      type: Schema.Types.ObjectId, // when create a anything in DB, it has its own _id, which has its own type
+      type: Schema.Types.ObjectId, // when create anything in DB, it has its own _id, which has its own type
       required: true,
       ref: 'User', // reference the "User" collection
     },
