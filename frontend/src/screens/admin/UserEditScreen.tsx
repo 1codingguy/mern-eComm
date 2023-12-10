@@ -9,8 +9,8 @@ import {
   useGetUserDetailsQuery,
   useUpdateUserMutation,
 } from '../../slices/userApiSlice'
-import { UserType } from '../../../../backend/models/userModel'
 import { Types } from 'mongoose'
+import UserModelType from '@backend/userModelType'
 
 const UserEditScreen = () => {
   const { id: userId } = useParams()
@@ -45,7 +45,7 @@ const UserEditScreen = () => {
 
     const id: Types.ObjectId = user?._id
 
-    const updatedUser: Partial<UserType> = {
+    const updatedUser: Partial<UserModelType> = {
       _id: id,
       name,
       email,

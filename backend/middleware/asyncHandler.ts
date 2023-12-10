@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-import { UserType } from '../models/userModel.js'
+import UserModelType from '../types/userModelType.js'
 
 interface RequestWithUser extends Request {
-  user?: UserType
+  user?: UserModelType
   cookies: { [key: string]: string }
 }
 

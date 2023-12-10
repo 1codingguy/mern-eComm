@@ -1,6 +1,6 @@
 import { USERS_URL } from '../constants'
 import { apiSlice } from './apiSlice'
-import { UserType } from '../../../backend/models/userModel'
+import UserModelType from '@backend/userModelType'
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
@@ -31,7 +31,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getUsers: builder.query<UserType[], null>({
+    getUsers: builder.query<UserModelType[], null>({
       query: () => ({
         url: USERS_URL,
       }),
@@ -44,13 +44,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: 'DELETE',
       }),
     }),
-    getUserDetails: builder.query<UserType, string>({
+    getUserDetails: builder.query<UserModelType, string>({
       query: userId => ({
         url: `${USERS_URL}/${userId}`,
       }),
       keepUnusedDataFor: 5,
     }),
-    updateUser: builder.mutation<UserType, Partial<UserType>>({
+    updateUser: builder.mutation<UserModelType, Partial<UserModelType>>({
       query: data => ({
         url: `${USERS_URL}/${data._id}`,
         method: 'PUT',
