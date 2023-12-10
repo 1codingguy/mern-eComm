@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ProductType } from '../../../backend/models/productModel'
 import { updateCart } from '../utils/cartUtils'
+import ProductModelType from '@backend/productModelType'
 
 const localData = localStorage.getItem('cart')
 
 // cartItems should be OrderType.orderItems instead because there is `qty` property, confirm and correct later
 export interface CartState {
-  cartItems: ProductType[] | []
+  cartItems: ProductModelType[] | []
   itemsPrice: string
   shippingPrice: string
   taxPrice: string
@@ -43,7 +43,7 @@ const cartSlice = createSlice({
   initialState: initialState,
   reducers: {
     addToCart: (state, action) => {
-      // item is {ProductType && qty}
+      // item is {ProductModelType && qty}
       const item = action.payload
 
       const existItem = state.cartItems.find(

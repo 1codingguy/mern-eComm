@@ -1,10 +1,10 @@
 import { Card } from 'react-bootstrap'
-import { ProductType } from '../../../backend/models/productModel'
 import { Link } from 'react-router-dom'
 import Rating from './Rating'
+import ProductModelType from "@backend/productModelType"
 
 type Product = {
-  product: ProductType
+  product: ProductModelType
 }
 
 const Product = ({ product }: Product) => {

@@ -1,9 +1,9 @@
-import { ProductType } from '../../../backend/models/productModel'
 import { PRODUCTS_URL, UPLOADS_URL } from '../constants'
 import { apiSlice } from './apiSlice'
+import ProductModelType from '@backend/productModelType'
 
-export type GetProductType = {
-  products: ProductType[]
+export type GetProductsType = {
+  products: ProductModelType[]
   page: number
   pages: number
 }
@@ -11,7 +11,7 @@ export type GetProductType = {
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<
-      GetProductType,
+      GetProductsType,
       { pageNumber: string; keyword: string }
     >({
       query: ({ pageNumber, keyword }) => ({
@@ -24,7 +24,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
       providesTags: ['Products'],
     }),
-    getProductDetails: builder.query<ProductType, string>({
+    getProductDetails: builder.query<ProductModelType, string>({
       query: productId => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
@@ -38,7 +38,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'], // stop it from being cached, so that we have fresh data
     }),
-    updateProduct: builder.mutation<ProductType, ProductType>({
+    updateProduct: builder.mutation<ProductModelType, ProductModelType>({
       // generic: first arg is return type, second arg is input type
       query: data => {
         return {
@@ -69,7 +69,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getTopProducts: builder.query<ProductType[], number>({
+    getTopProducts: builder.query<ProductModelType[], number>({
       query: () => ({
         url: `${PRODUCTS_URL}/top`,
       }),

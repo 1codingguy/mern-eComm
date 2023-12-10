@@ -81,9 +81,9 @@ const productSchema = new Schema(
 
 const Product = model('Product', productSchema)
 
-type InferredType = InferSchemaType<typeof productSchema>
+export type InferredProductType = InferSchemaType<typeof productSchema>
 
-export type ProductType = InferredType & {
+export type ProductType = InferredProductType & {
   _id: Types.ObjectId
   qty: number
 }

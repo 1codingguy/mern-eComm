@@ -45,7 +45,7 @@ const ProductScreen = () => {
   const { userInfo } = useSelector((state: RootState) => state.auth)
 
   const addToCartHandler = () => {
-    // qty is added but it's not part of ProductType
+    // qty is added but it's not part of Product Model
     dispatch(addToCart({ ...product, qty }))
     navigate('/cart')
   }

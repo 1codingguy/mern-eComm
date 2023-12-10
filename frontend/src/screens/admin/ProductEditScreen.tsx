@@ -10,7 +10,7 @@ import {
   useGetProductDetailsQuery,
   useUploadProductImageMutation,
 } from '../../slices/productsApiSlice'
-import { ProductType } from '../../../../backend/models/productModel'
+import ProductModelType from '@backend/productModelType'
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams()
@@ -53,7 +53,7 @@ const ProductEditScreen = () => {
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const updatedProduct: ProductType = {
+    const updatedProduct: ProductModelType = {
       _id: productId,
       name,
       price,

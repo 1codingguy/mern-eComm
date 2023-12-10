@@ -1,6 +1,6 @@
 import asyncHandler from '../middleware/asyncHandler.js'
 import Order, { OrderType } from '../models/orderModel.js'
-import { ProductType } from '../models/productModel.js'
+import ProductModelType from '../types/productModelType.js'
 
 // @desc    Create an order
 // @route   POST /api/orders
@@ -21,7 +21,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     throw new Error('No order items')
   } else if (req.user) {
     const order = new Order({
-      orderItems: orderItems.map((item: ProductType) => ({
+      orderItems: orderItems.map((item: ProductModelType) => ({
         ...item,
         product: item._id,
         _id: undefined,
