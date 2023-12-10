@@ -1,5 +1,5 @@
 import asyncHandler from '../middleware/asyncHandler.js'
-import Order, { OrderType } from '../models/orderModel.js'
+import Order from '../models/orderModel.js'
 import ProductModelType from '../types/productModelType.js'
 
 // @desc    Create an order

@@ -80,10 +80,6 @@ const orderSchema = new Schema(
 
 const Order = model('Order', orderSchema)
 
-type InferredType = InferSchemaType<typeof orderSchema>
-
-export type OrderType = InferredType & {
-  _id: Types.ObjectId
-}
+export type InferredOrderType = InferSchemaType<typeof orderSchema>
 
 export default Order
