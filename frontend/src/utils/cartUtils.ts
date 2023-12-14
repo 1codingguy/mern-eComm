@@ -1,6 +1,7 @@
-import { CartState } from "../slices/cartSlice"
+import { CartState } from '../slices/cartSlice'
 
-export const addDecimals = (num: number) => (Math.round(num * 100) / 100).toFixed(2)
+export const addDecimals = (num: number) =>
+  Number((Math.round(num * 100) / 100).toFixed(2))
 
 export const updateCart = (state: CartState) => {
   // calculate items price
@@ -18,11 +19,13 @@ export const updateCart = (state: CartState) => {
   state.taxPrice = addDecimals(0.15 * Number(state.itemsPrice))
 
   // calculate total price
-  state.totalPrice = (
-    Number(state.itemsPrice) +
-    Number(state.shippingPrice) +
-    Number(state.taxPrice)
-  ).toFixed(2)
+  state.totalPrice = Number(
+    (
+      Number(state.itemsPrice) +
+      Number(state.shippingPrice) +
+      Number(state.taxPrice)
+    ).toFixed(2)
+  )
 
   localStorage.setItem('cart', JSON.stringify(state))
 

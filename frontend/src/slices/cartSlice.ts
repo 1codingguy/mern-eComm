@@ -1,31 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { updateCart } from '../utils/cartUtils'
 import ProductModelType from '@backend/productModelType'
-
+import OrderModelType from '@backend/orderModelType'
 const localData = localStorage.getItem('cart')
 
-// cartItems should be OrderType.orderItems instead because there is `qty` property, confirm and correct later
-export interface CartState {
-  cartItems: ProductModelType[] | []
-  itemsPrice: string
-  shippingPrice: string
-  taxPrice: string
-  totalPrice: string
-  shippingAddress: {
-    address: string
-    city: string
-    postalCode: string
-    country: string
-  }
-  paymentMethod: string
+type CartItem = ProductModelType & { qty: number }
+
+export type CartState = Pick<
+  OrderModelType,
+  | 'itemsPrice'
+  | 'shippingPrice'
+  | 'taxPrice'
+  | 'totalPrice'
+  | 'shippingAddress'
+  | 'paymentMethod'
+> & {
+  cartItems: CartItem[]
 }
 
 const defaultCart: CartState = {
   cartItems: [],
-  itemsPrice: '',
-  shippingPrice: '',
-  taxPrice: '',
-  totalPrice: '',
+  itemsPrice: 0,
+  shippingPrice: 0,
+  taxPrice: 0,
+  totalPrice: 0,
   shippingAddress: {
     address: '',
     city: '',
@@ -43,7 +41,6 @@ const cartSlice = createSlice({
   initialState: initialState,
   reducers: {
     addToCart: (state, action) => {
-      // item is {ProductModelType && qty}
       const item = action.payload
 
       const existItem = state.cartItems.find(
@@ -52,7 +49,6 @@ const cartSlice = createSlice({
 
       if (existItem) {
         state.cartItems = state.cartItems.map(cartItem => {
-          // what's the point of this step if not changing the quantity?
           return cartItem._id === existItem._id ? item : cartItem
         })
       } else {
