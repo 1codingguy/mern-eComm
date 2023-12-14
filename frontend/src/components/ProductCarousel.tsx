@@ -11,7 +11,11 @@ const ProductCarousel = () => {
     return <Loader />
   }
   if (error) {
-    return <Message variant='danger'>{error}</Message>
+    return (
+      <Message variant='danger'>
+        <>{error}</>
+      </Message>
+    )
   }
 
   return (

@@ -4,7 +4,7 @@ import ProductModelType from '@backend/productModelType'
 import OrderModelType from '@backend/orderModelType'
 const localData = localStorage.getItem('cart')
 
-type CartItem = ProductModelType & { qty: number }
+export type CartItem = ProductModelType & { qty: number }
 
 export type CartState = Pick<
   OrderModelType,
@@ -46,6 +46,8 @@ const cartSlice = createSlice({
       const existItem = state.cartItems.find(
         cartItem => cartItem._id === item._id
       )
+
+      // doesn't take care of the case where the item is already in the cart, click "add to cart" won't add the qty on top of the existing qty
 
       if (existItem) {
         state.cartItems = state.cartItems.map(cartItem => {

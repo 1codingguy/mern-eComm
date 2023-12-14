@@ -13,7 +13,8 @@ import { FaTrash } from 'react-icons/fa'
 import Message from '../components/Message'
 import { RootState } from '../store'
 import { addToCart, removeFromCart } from '../slices/cartSlice'
-import { CartItemsType } from '../slices/cartSlice'
+import { CartItem } from '../slices/cartSlice'
+import ProductModelType from '@backend/productModelType'
 
 const CartScreen = () => {
   const navigate = useNavigate()
@@ -22,19 +23,16 @@ const CartScreen = () => {
   const cart = useSelector((state: RootState) => state.cart)
   const { cartItems } = cart
 
-  const addToCartHandler = async (
-    product: CartItemsType,
-    qty: CartItemsType['qty']
-  ) => {
+  const addToCartHandler = async (product: ProductModelType, qty: number) => {
     dispatch(addToCart({ ...product, qty }))
   }
 
-  const removeFromCartHandler = async (id: CartItemsType['_id']) => {
+  const removeFromCartHandler = async (id: CartItem['_id']) => {
     dispatch(removeFromCart({ id }))
   }
 
   const checkOutHandler = () => {
-    navigate("/login?redirect=/shipping")
+    navigate('/login?redirect=/shipping')
   }
 
   return (
