@@ -1,5 +1,5 @@
 // Set the user credential to local storage and remove them
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export interface AuthState {
   userInfo: {
@@ -21,7 +21,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials: (state, action) => {
+    setCredentials: (state, action: PayloadAction<AuthState['userInfo']>) => {
       state.userInfo = action.payload
       localStorage.setItem('userInfo', JSON.stringify(action.payload))
     },
