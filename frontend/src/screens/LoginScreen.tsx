@@ -8,10 +8,11 @@ import { useLoginMutation } from '../slices/userApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import { toast } from 'react-toastify'
 import { RootState } from '../store'
+import { AuthUser } from '@backend/controllers/userController'
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState<AuthUser['email']>('')
+  const [password, setPassword] = useState<AuthUser['password']>('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

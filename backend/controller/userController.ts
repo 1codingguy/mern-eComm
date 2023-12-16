@@ -2,13 +2,14 @@ import express from 'express'
 import asyncHandler from '../middleware/asyncHandler.js'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
+import { AuthUser } from '../types/controllers/userController.js'
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
 
 export const authUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body as AuthUser
 
   const user = await User.findOne({ email })
   const isPasswordMatch = user && (await user.matchPassword(password))
