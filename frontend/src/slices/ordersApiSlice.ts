@@ -1,3 +1,4 @@
+import OrderModelType from '@backend/orderModelType'
 import { ORDERS_URL, PAYPAL_URL } from '../constants'
 import { apiSlice } from './apiSlice'
 
@@ -29,7 +30,7 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
-    getMyOrders: builder.query({
+    getMyOrders: builder.query<OrderModelType[], null>({
       query: () => ({
         url: `${ORDERS_URL}/myorders`,
       }),
