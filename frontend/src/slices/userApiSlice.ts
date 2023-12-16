@@ -2,10 +2,11 @@ import { AuthUser } from '@backend/controllers/userController'
 import { USERS_URL } from '../constants'
 import { apiSlice } from './apiSlice'
 import UserModelType from '@backend/userModelType'
+import { AuthState } from './authSlice'
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
-    login: builder.mutation<null, AuthUser>({
+    login: builder.mutation<AuthState['userInfo'], AuthUser>({
       query: data => ({
         url: `${USERS_URL}/login`,
         method: 'POST',
