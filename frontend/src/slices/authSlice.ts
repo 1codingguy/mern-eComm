@@ -7,7 +7,6 @@ export interface AuthState {
     name: string
     email: string
     isAdmin: boolean
-    token: string
   } | null
 }
 

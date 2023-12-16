@@ -33,10 +33,12 @@ userSchema.methods.matchPassword = async function (enteredPassword: string) {
 }
 
 userSchema.pre('save', async function (next) {
+  // Before saving a user record to MongoDB, check if modifying password
   if (!this.isModified('password')) {
     next()
   }
 
+  // Encrypt the password if it's changed
   const salt = await bcrypt.genSalt(10)
   this.password = await bcrypt.hash(this.password, salt)
 })
