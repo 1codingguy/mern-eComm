@@ -1,4 +1,4 @@
-import { Types, Schema, model, InferSchemaType } from 'mongoose'
+import { Schema, model, InferSchemaType } from 'mongoose'
 
 const orderSchema = new Schema(
   {

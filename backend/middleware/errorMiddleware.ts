@@ -24,6 +24,8 @@ export const errorHandler: ErrorHandler = (err, req, res, next) => {
     statusCode = 404
   }
 
+  // this is inside `data` field of the error object
+  // shape of the error object { status: number, data: {message, stack} }
   res.status(statusCode).json({
     message,
     stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
