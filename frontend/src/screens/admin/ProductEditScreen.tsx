@@ -12,6 +12,7 @@ import {
 } from '../../slices/productsApiSlice'
 import ProductModelType from '@backend/productModelType'
 import getErrorMessage from '../../utils/getErrorMessage'
+import { Types } from 'mongoose'
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams()
@@ -54,7 +55,7 @@ const ProductEditScreen = () => {
     e.preventDefault()
 
     const updatedProduct: ProductModelType = {
-      _id: productId,
+      _id: new Types.ObjectId(productId),
       name,
       price,
       description,
@@ -62,7 +63,7 @@ const ProductEditScreen = () => {
       brand,
       category,
       countInStock,
-    }
+    } as ProductModelType
 
     const result = await updateProduct(updatedProduct)
 

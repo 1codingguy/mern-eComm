@@ -69,11 +69,15 @@ const router = createBrowserRouter(
   )
 )
 
+const paypalOptions = {
+  clientId: process.env.PAYPAL_CLIENT_ID ?? '',
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <HelmetProvider>
       <Provider store={store}>
-        <PayPalScriptProvider deferLoading>
+        <PayPalScriptProvider deferLoading options={paypalOptions}>
           <RouterProvider router={router} />
         </PayPalScriptProvider>
       </Provider>

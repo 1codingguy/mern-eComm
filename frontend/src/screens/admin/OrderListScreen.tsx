@@ -4,6 +4,7 @@ import { FaTimes } from 'react-icons/fa'
 import Message from '../../components/Message'
 import Loader from '../../components/Loader'
 import { useGetOrdersQuery } from '../../slices/ordersApiSlice'
+import OrderModelType from '@backend/orderModelType'
 
 const OrderListScreen = () => {
   const { data: orders, isLoading, error } = useGetOrdersQuery({})
@@ -30,22 +31,22 @@ const OrderListScreen = () => {
             </tr>
           </thead>
           <tbody>
-            {orders?.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
+            {orders?.map((order: OrderModelType) => (
+              <tr key={String(order._id)}>
+                <td>{String(order._id)}</td>
                 <td>{order.user && order.user.name}</td>
-                <td>{order.createdAt?.substring(0, 10)}</td>
+                <td>{String(order.createdAt)?.substring(0, 10)}</td>
                 <td>${order.totalPrice}</td>
                 <td>
                   {order.isPaid ? (
-                    order.paidAt?.substring(0, 10)
+                    String(order.paidAt)?.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}
                 </td>
                 <td>
                   {order.isDelivered ? (
-                    order.deliveredAt?.substring(0, 10)
+                    String(order.deliveredAt)?.substring(0, 10)
                   ) : (
                     <FaTimes style={{ color: 'red' }} />
                   )}
