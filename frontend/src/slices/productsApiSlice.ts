@@ -12,7 +12,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getProducts: builder.query<
       GetProductsType,
-      { pageNumber: string; keyword: string }
+      { pageNumber: string; keyword: string | undefined }
     >({
       query: ({ pageNumber, keyword }) => ({
         url: PRODUCTS_URL,

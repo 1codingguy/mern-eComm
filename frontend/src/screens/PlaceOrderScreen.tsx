@@ -19,12 +19,12 @@ const PlaceOrderScreen = () => {
   const [createOrder, { isLoading, error }] = useCreateOrderMutation()
 
   useEffect(() => {
-    if (!cart.shippingAddress.address) {
+    if (!cart?.shippingAddress?.address) {
       navigate('/shipping')
     } else if (!cart.paymentMethod) {
       navigate('/payment')
     }
-  }, [navigate, cart.shippingAddress.address, cart.paymentMethod])
+  }, [navigate, cart?.shippingAddress?.address, cart.paymentMethod])
 
   const placeOrderHandler = async () => {
     try {
@@ -55,9 +55,9 @@ const PlaceOrderScreen = () => {
               <h3>Shipping</h3>
               <p>
                 <strong>Address: </strong>
-                {cart.shippingAddress.address}, {cart.shippingAddress.city},{' '}
-                {cart.shippingAddress.postalCode},{' '}
-                {cart.shippingAddress.country}
+                {cart?.shippingAddress?.address}, {cart?.shippingAddress?.city},{' '}
+                {cart?.shippingAddress?.postalCode},{' '}
+                {cart?.shippingAddress?.country}
               </p>
             </ListGroup.Item>
 

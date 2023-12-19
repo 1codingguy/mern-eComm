@@ -14,10 +14,13 @@ import Paginate from '../../components/Paginate'
 import getErrorMessage from '../../utils/getErrorMessage'
 
 const ProductListScreen = () => {
-  const { pageNumber } = useParams<{ pageNumber: string }>()
+  const { pageNumber, keyword } = useParams<{
+    pageNumber: string
+    keyword: string | undefined
+  }>()
 
   const { data, error, isLoading, refetch } = useGetProductsQuery(
-    pageNumber ? { pageNumber } : { pageNumber: '1' }
+    pageNumber ? { keyword, pageNumber } : { keyword, pageNumber: '1' }
   )
 
   const { products = [], pages = 0, page = 0 } = data || {}

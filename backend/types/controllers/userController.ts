@@ -3,4 +3,4 @@ interface AuthUser {
   password: string
 }
 
-export { AuthUser }
+export type { AuthUser }
