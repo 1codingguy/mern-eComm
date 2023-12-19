@@ -8,6 +8,7 @@ import { useRegisterMutation } from '../slices/userApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import { toast } from 'react-toastify'
 import { RootState } from '../store'
+import getErrorMessage from '../utils/getErrorMessage'
 
 const RegisterScreen = () => {
   const [name, setName] = useState('')
@@ -44,7 +45,7 @@ const RegisterScreen = () => {
         dispatch(setCredentials({ ...res }))
         navigate(redirect)
       } catch (error) {
-        toast.error(error?.data?.message || error.error)
+        toast.error(getErrorMessage(error))
       }
     }
   }

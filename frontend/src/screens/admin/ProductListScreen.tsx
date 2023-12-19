@@ -11,6 +11,7 @@ import {
 import { toast } from 'react-toastify'
 import { useParams } from 'react-router-dom'
 import Paginate from '../../components/Paginate'
+import getErrorMessage from '../../utils/getErrorMessage'
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams<{ pageNumber: string }>()
@@ -34,7 +35,7 @@ const ProductListScreen = () => {
         refetch()
         toast.success('delete product success')
       } catch (error) {
-        toast.error(error?.data?.message || error.error)
+        toast.error(getErrorMessage(error))
       }
     }
   }
@@ -46,7 +47,7 @@ const ProductListScreen = () => {
         refetch()
         toast.success('create product success')
       } catch (error) {
-        toast.error(error?.data?.message || error.error)
+        toast.error(getErrorMessage(error))
       }
     }
   }

@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../store'
 import { useEffect } from 'react'
 import OrderModelType from '@backend/orderModelType'
+import getErrorMessage from '../utils/getErrorMessage'
 
 const OrderScreen = () => {
   const { id: orderId } = useParams<{ id: string }>()
@@ -88,7 +89,7 @@ const OrderScreen = () => {
         refetch()
         toast.success('Payment successful')
       } catch (error) {
-        toast.error(error?.data?.message || error.message)
+        toast.error(getErrorMessage(error))
       }
     })
   }
@@ -102,7 +103,7 @@ const OrderScreen = () => {
 
   const onError = (error: unknown) => {
     if (error instanceof Error) {
-      toast.error(error.message)
+      toast.error(getErrorMessage(error))
     }
   }
 
@@ -131,7 +132,7 @@ const OrderScreen = () => {
       refetch()
       toast.success('Order delivered')
     } catch (error) {
-      toast.error(error?.data?.message || error.message)
+      toast.error(getErrorMessage(error))
     }
   }
 

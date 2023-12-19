@@ -23,6 +23,7 @@ import { addToCart } from '../slices/cartSlice.js'
 import { toast } from 'react-toastify'
 import { RootState } from '../store.js'
 import Meta from '../components/Meta.js'
+import getErrorMessage from '../utils/getErrorMessage.js'
 
 const ProductScreen = () => {
   const { id: productId } = useParams()
@@ -64,7 +65,7 @@ const ProductScreen = () => {
       setRating(0)
       setComment('')
     } catch (error) {
-      toast.error(error?.data?.message || error.error)
+      toast.error(getErrorMessage(error))
     }
   }
 
@@ -77,7 +78,7 @@ const ProductScreen = () => {
         <Loader />
       ) : error ? (
         <Message variant='danger'>
-          {error?.data?.message || error.error}
+          <>{getErrorMessage(error)}</>
         </Message>
       ) : (
         <>

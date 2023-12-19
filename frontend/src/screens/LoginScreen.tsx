@@ -9,6 +9,7 @@ import { setCredentials } from '../slices/authSlice'
 import { toast } from 'react-toastify'
 import { RootState } from '../store'
 import { AuthUser } from '@backend/controllers/userController'
+import getErrorMessage from '../utils/getErrorMessage'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState<AuthUser['email']>('')
@@ -39,7 +40,7 @@ const LoginScreen = () => {
       dispatch(setCredentials(res))
       navigate(redirect)
     } catch (error) {
-      toast.error(error?.data?.message || error.error)
+      toast.error(getErrorMessage(error))
     }
   }
 

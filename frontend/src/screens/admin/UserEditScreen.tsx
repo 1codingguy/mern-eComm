@@ -11,6 +11,7 @@ import {
 } from '../../slices/userApiSlice'
 import { Types } from 'mongoose'
 import UserModelType from '@backend/userModelType'
+import getErrorMessage from '../../utils/getErrorMessage'
 
 const UserEditScreen = () => {
   const { id: userId } = useParams()
@@ -59,7 +60,7 @@ const UserEditScreen = () => {
       refetch()
       navigate('/admin/userlist')
     } catch (error) {
-      toast.error(error?.data?.message || error.error)
+      toast.error(getErrorMessage(error))
     }
   }
 

@@ -11,6 +11,7 @@ import {
   useUploadProductImageMutation,
 } from '../../slices/productsApiSlice'
 import ProductModelType from '@backend/productModelType'
+import getErrorMessage from '../../utils/getErrorMessage'
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams()
@@ -65,8 +66,8 @@ const ProductEditScreen = () => {
 
     const result = await updateProduct(updatedProduct)
 
-    if (result.error) {
-      toast.error(result.error)
+    if ('error' in result) {
+      toast.error(getErrorMessage(error))
     } else {
       toast.success('update product success')
       navigate('/admin/productlist')
@@ -83,7 +84,7 @@ const ProductEditScreen = () => {
       setImage(result.image)
       console.log(result.image)
     } catch (error) {
-      toast.error(error?.data?.message || error.message)
+      toast.error(getErrorMessage(error))
     }
   }
 

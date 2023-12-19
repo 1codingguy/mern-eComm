@@ -9,6 +9,7 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { useCreateOrderMutation } from '../slices/ordersApiSlice'
 import { clearCartItems } from '../slices/cartSlice'
+import getErrorMessage from '../utils/getErrorMessage'
 
 const PlaceOrderScreen = () => {
   const dispatch = useDispatch()
@@ -40,7 +41,7 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems())
       navigate(`/order/${res._id}`)
     } catch (error) {
-      toast.error(error.message)
+      toast.error(getErrorMessage(error))
     }
   }
 

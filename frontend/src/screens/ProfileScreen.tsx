@@ -10,6 +10,7 @@ import { useGetMyOrdersQuery } from '../slices/ordersApiSlice'
 import { setCredentials } from '../slices/authSlice'
 import { RootState } from '../store'
 import { FaTimes } from 'react-icons/fa'
+import getErrorMessage from '../utils/getErrorMessage'
 
 const ProfileScreen = () => {
   const [name, setName] = useState('')
@@ -48,7 +49,7 @@ const ProfileScreen = () => {
         dispatch(setCredentials(result))
         toast.success('Profile updated')
       } catch (error) {
-        toast.error(error?.data?.message || error.error)
+        toast.error(getErrorMessage(error))
       }
     }
   }
@@ -123,7 +124,7 @@ const ProfileScreen = () => {
           <Loader />
         ) : error ? (
           <Message variant='danger'>
-            <>{error?.data?.message || error}</>
+            <>{getErrorMessage(error)}</>
           </Message>
         ) : (
           <Table striped hover responsive className='table-sm'>

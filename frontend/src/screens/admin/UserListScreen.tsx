@@ -8,6 +8,7 @@ import {
   useDeleteUserMutation,
 } from '../../slices/userApiSlice'
 import { toast } from 'react-toastify'
+import getErrorMessage from '../../utils/getErrorMessage'
 
 const UserListScreen = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery(null)
@@ -21,7 +22,7 @@ const UserListScreen = () => {
         refetch()
         toast.success('delete product success')
       } catch (error) {
-        toast.error(error?.data?.message || error.error)
+        toast.error(getErrorMessage(error))
       }
     }
   }

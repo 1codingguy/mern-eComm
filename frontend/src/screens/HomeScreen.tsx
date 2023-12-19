@@ -6,6 +6,7 @@ import Message from '../components/Message'
 import { Link, useParams } from 'react-router-dom'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
+import getErrorMessage from '../utils/getErrorMessage'
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams<{
@@ -35,7 +36,7 @@ const HomeScreen = () => {
         <Loader />
       ) : error ? (
         <Message variant='danger'>
-          {error?.data?.message || error.error}
+          <>{getErrorMessage(error)}</>
         </Message>
       ) : (
         <>
