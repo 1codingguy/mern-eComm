@@ -69,7 +69,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    getTopProducts: builder.query<ProductModelType[], number>({
+    getTopProducts: builder.query<ProductModelType[], null>({
       query: () => ({
         url: `${PRODUCTS_URL}/top`,
       }),
