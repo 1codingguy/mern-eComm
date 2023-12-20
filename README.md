@@ -30,8 +30,8 @@ Ensuring type safety across both the frontend and backend of an application is a
 "compilerOptions": {
 	"paths": {
 		"@backend/*": ["../backend/types/*"]
-		},
-	}
+    },
+}
 ```
 - **Advantages of Apollo + GraphQL**: A setup like Apollo with GraphQL, which auto-generates types when fetching data to the frontend, presents a more streamlined approach. This allows for a complete separation of frontend and backend code, while still keeping the types in sync.
 
@@ -60,12 +60,12 @@ Key issues include:
 
 To address this:
 - **Manual Property Addition in TypeScript Types**: Extend TypeScript types to include these properties. For example:
-  ``` typescript
-  type OrderModelType = InferredOrderType & {
+``` typescript
+type OrderModelType = InferredOrderType & {
     _id: Types.ObjectId;
     user: UserModelType;
-  };
-  ```
+};
+```
   This approach, while effective, can become cumbersome in larger projects with multiple schemas and models due to the repetitive nature of manually adding these properties.
 
 Navigating this aspect of Mongoose and TypeScript integration requires careful planning to maintain type safety without excessive manual type extensions, especially in more extensive projects.
@@ -79,10 +79,11 @@ The implementation of a private route in React using `react-router-dom` is shown
 const PrivateRoute = () => {
 	const { userInfo } = useSelector((state: RootState) => state.auth)
 	
-	if (!userInfo) {
-		return <Navigate to='/login' replace/>
-	}
-	return <Outlet />
+        if (!userInfo) {
+            return <Navigate to='/login' replace/>
+        }
+        
+    return <Outlet />
 }
 ```
 This example demonstrates a PrivateRoute component that grants access only after user authentication.
